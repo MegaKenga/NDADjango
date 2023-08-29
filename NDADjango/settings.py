@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from config import main_key
+from config import main_key, db_user, db_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'NDAproject',
-        'USER': 'admin',
-        'PASSWORD': 'amd64x22',
+        'USER': db_user,
+        'PASSWORD': db_key,
         'HOST': 'localhost',
         'PORT': '',
     }
