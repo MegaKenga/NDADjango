@@ -72,7 +72,7 @@ class Group(models.Model):
 
 
 class Product(models.Model):
-    ref = models.CharField(max_length=240)
+    ref = models.CharField(max_length=240, primary_key=True)
     description = models.CharField(max_length=240)
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE)
 
