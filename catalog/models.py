@@ -3,7 +3,7 @@ from django.db import models
 
 class Brand(models.Model):
     name = models.CharField(max_length=240, primary_key=True)
-    description = models.CharField(max_length=240)
+    description = models.CharField(max_length=240, blank=True)
     place = models.IntegerField(unique=True)
 
     class Meta:
@@ -17,7 +17,7 @@ class Brand(models.Model):
 
 class Unit(models.Model):
     name = models.CharField(max_length=240, primary_key=True)
-    description = models.CharField(max_length=240)
+    description = models.CharField(max_length=240, blank=True)
 
     class Meta:
         ordering = ['name']
@@ -28,10 +28,25 @@ class Unit(models.Model):
         return '{0} {1}', format(self.name, self.description)
 
 
+class SubUnit(models.Model):
+    name = models.CharField(max_length=240, primary_key=True)
+    description = models.CharField(max_length=240, blank=True)
+    unit_name = models.ForeignKey(Unit, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Подразделение'
+        verbose_name_plural = 'Подразделения'
+
+    def __str__(self):
+        return '{0} {1}', format(self.name, self.description)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=240, primary_key=True)
-    description = models.CharField(max_length=240, null=True)
+    description = models.CharField(max_length=240, blank=True)
     unit_name = models.ForeignKey(Unit, on_delete=models.CASCADE)
+    sub_unit_name = models.ForeignKey(SubUnit, on_delete=models.CASCADE)
     brand_name = models.ForeignKey(Brand, on_delete=models.CASCADE)
 
     class Meta:
@@ -45,8 +60,8 @@ class Category(models.Model):
 
 class Typeclass(models.Model):
     name = models.CharField(max_length=240, primary_key=True)
-    description = models.CharField(max_length=240, null=True)
-    category_name = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = models.CharField(max_length=240, blank=True)
+    category_name = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         ordering = ['name']
@@ -59,8 +74,8 @@ class Typeclass(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=240, primary_key=True)
-    description = models.CharField(max_length=240, null=True)
-    type_name = models.ForeignKey(Typeclass, on_delete=models.CASCADE)
+    description = models.CharField(max_length=240, blank=True)
+    type_name = models.ForeignKey(Typeclass, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         ordering = ['name']
@@ -73,7 +88,7 @@ class Group(models.Model):
 
 class Product(models.Model):
     ref = models.CharField(max_length=240, primary_key=True)
-    description = models.CharField(max_length=240)
+    description = models.CharField(max_length=240, blank=True)
     group_name = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     class Meta:
