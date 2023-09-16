@@ -4,7 +4,7 @@ from catalog.models import Group, Product
 
 class FilesToGroup(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID связи группы и её файлов')
-    group = models.OneToOneField('Group', on_delete=models.SET_NULL, verbose_name='Уникальный ID каждой группы')
+    group = models.OneToOneField(Group, null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID каждой группы')
     group_image = models.ImageField(upload_to='images/group', blank=True, null=True, verbose_name='Изображение')
     group_banner = models.ImageField(upload_to='images/group', blank=True, null=True, verbose_name='Баннер')
     group_registration = models.FileField(upload_to='files/registration', blank=True, null=True, verbose_name='РУ')
@@ -22,7 +22,7 @@ class FilesToGroup(models.Model):
 
 class FilesToProduct(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID связи товара и его файлов')
-    product = models.OneToOneField('Group', on_delete=models.SET_NULL, verbose_name='Уникальный ID каждого товара')
+    product = models.OneToOneField(Product, null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID каждого товара')
     product_image = models.ImageField(upload_to='images/product', blank=True, null=True, verbose_name='Изображение')
     product_tech_description = models.FileField(upload_to='files/tech_description', blank=True, null=True,
                                                 verbose_name='Описание товара')
