@@ -22,7 +22,7 @@ class Order(models.Model):
 
 class OrderRow(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product_ref = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(validators=[MinValueValidator(1)], default=1, verbose_name='Количество')
 
     class Meta:

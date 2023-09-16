@@ -79,8 +79,8 @@ WSGI_APPLICATION = 'NDADjango.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'NDAproject',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ndaproject',
         'USER': db_user,
         'PASSWORD': db_key,
         'HOST': 'localhost',
