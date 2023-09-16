@@ -53,7 +53,7 @@ class Product(models.Model):
 class ProductToGroup(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID каждой связи товара и группы')
     product = models.OneToOneField('Product', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID товара')
-    group = models.OneToOneField('Brand', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID группы, \
+    group = models.OneToOneField('Group', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID группы, \
                                                                                     к которой принадлежит товар')
 
     class Meta:
