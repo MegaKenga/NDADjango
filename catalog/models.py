@@ -3,9 +3,9 @@ from django.db import models
 
 class Brand(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID бренда')
-    name = models.CharField(max_length=240, verbose_name='Бренд')
+    name = models.CharField(max_length=4000, verbose_name='Бренд')
     description = models.CharField(max_length=240, blank=True, null=True, verbose_name='Описание')
-    place = models.IntegerField(unique=True, blank=True, null=True, verbose_name='Место в списке')
+    place = models.IntegerField(blank=True, null=True, verbose_name='Место в списке')
     brand_image = models.ImageField(upload_to='images/brand', blank=True, null=True, verbose_name='Изображение')
     brand_banner = models.ImageField(upload_to='images/brand', blank=True, null=True, verbose_name='Баннер')
 
@@ -20,11 +20,11 @@ class Brand(models.Model):
 
 class Group(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID каждой группы')
-    name = models.CharField(max_length=240, verbose_name='Имя группы')
-    description = models.CharField(max_length=240, blank=True, null=True, verbose_name='Описание')
+    name = models.CharField(max_length=4000, verbose_name='Имя группы')
+    description = models.CharField(max_length=4000, blank=True, null=True, verbose_name='Описание')
     group_brand = models.ForeignKey('Brand', null=True, on_delete=models.SET_NULL, verbose_name='ID Бренда, \
                                                                                     к которому относится группа')
-    place = models.IntegerField(unique=True, blank=True, null=True, verbose_name='Место в списке')
+    place = models.IntegerField(blank=True, null=True, verbose_name='Место в списке')
 
     class Meta:
         ordering = ['place']
@@ -37,9 +37,9 @@ class Group(models.Model):
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID каждого товара')
-    ref = models.CharField(max_length=240, verbose_name='Код товара')
-    name = models.CharField(max_length=240, verbose_name='Имя товара')
-    place = models.IntegerField(unique=True, blank=True, null=True, verbose_name='Место в списке')
+    ref = models.CharField(max_length=4000, verbose_name='Код товара')
+    name = models.CharField(max_length=4000, verbose_name='Имя товара')
+    place = models.IntegerField(blank=True, null=True, verbose_name='Место в списке')
 
     class Meta:
         ordering = ['place']
@@ -53,7 +53,7 @@ class Product(models.Model):
 class ProductToGroup(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID каждой связи товара и группы')
     product = models.OneToOneField('Product', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID товара')
-    group = models.OneToOneField('Group', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID группы, \
+    group = models.ForeignKey('Group', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID группы, \
                                                                                     к которой принадлежит товар')
 
     class Meta:
@@ -67,9 +67,11 @@ class ProductToGroup(models.Model):
 
 class CategoryToGroup(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID каждой связи групп между собой')
-    group = models.OneToOneField('Group', related_name='descendant', null=True, on_delete=models.SET_NULL, verbose_name='ID группы')
-    parent_group = models.OneToOneField('Group', related_name='ancestor', null=True, on_delete=models.SET_NULL, verbose_name='ID группы-родителя.\
-                                        Если указать 0, то группа будет отображаться как начальная в категории Бренда')
+    group = models.OneToOneField('Group', related_name='descendant', null=True, on_delete=models.SET_NULL,
+                              verbose_name='ID группы')
+    parent_group = models.ForeignKey('Group', related_name='ancestor', null=True, on_delete=models.SET_NULL,
+                                     verbose_name='ID группы-родителя. Если указать 0, то группа будет отображаться\
+                                         как начальная в категории Бренда')
     final = models.BooleanField(default=False, verbose_name='Отметка о том, что это группа последняя в категории \
                                                             и при переходе в группу будут отображаться уже товары')
 
@@ -84,10 +86,10 @@ class CategoryToGroup(models.Model):
 
 class Unit(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID бренда')
-    name = models.CharField(max_length=240, verbose_name='Бренд')
-    description = models.CharField(max_length=240, blank=True, null=True, verbose_name='Описание')
+    name = models.CharField(max_length=4000, verbose_name='Бренд')
+    description = models.CharField(max_length=4000, blank=True, null=True, verbose_name='Описание')
     unit_image = models.ImageField(upload_to='images/unit', blank=True, null=True, verbose_name='Изображение')
-    place = models.IntegerField(unique=True, blank=True, null=True, verbose_name='Место в списке')
+    place = models.IntegerField(blank=True, null=True, verbose_name='Место в списке')
 
     class Meta:
         ordering = ['place']
@@ -102,7 +104,7 @@ class UnitToCategory(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='Уникальный ID каждой связи направления и группы')
     group = models.OneToOneField('Group', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID группы,\
                                                                                          принадлежащей направлению')
-    unit = models.OneToOneField('Unit', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID направления')
+    unit = models.ForeignKey('Unit', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID направления')
 
     class Meta:
         ordering = ['id']
