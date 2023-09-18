@@ -40,6 +40,8 @@ class Product(models.Model):
     ref = models.CharField(max_length=4000, verbose_name='Код товара')
     name = models.CharField(max_length=4000, verbose_name='Имя товара')
     place = models.IntegerField(blank=True, null=True, verbose_name='Место в списке')
+    group = models.ForeignKey('Group', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID группы, \
+                                                                                    к которой принадлежит товар')
 
     class Meta:
         ordering = ['place']
@@ -50,11 +52,11 @@ class Product(models.Model):
         return self.ref, self.name, self.place
 
 
-class ProductToGroup(models.Model):
-    id = models.AutoField(primary_key=True, verbose_name='Уникальный ID каждой связи товара и группы')
-    product = models.OneToOneField('Product', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID товара')
-    group = models.ForeignKey('Group', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID группы, \
-                                                                                    к которой принадлежит товар')
+    #class ProductToGroup(models.Model):
+    #id = models.AutoField(primary_key=True, verbose_name='Уникальный ID каждой связи товара и группы')
+    #product = models.OneToOneField('Product', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID товара')
+    #group = models.ForeignKey('Group', null=True, on_delete=models.SET_NULL, verbose_name='Уникальный ID группы, \
+                                                                                    #к которой принадлежит товар')
 
     class Meta:
         ordering = ['id']
