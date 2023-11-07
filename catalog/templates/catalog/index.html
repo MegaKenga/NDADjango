@@ -17,7 +17,7 @@
             <img src="{{ brand.brand_image.url }}" alt="{{ brand.name }}" />
         </p>
         {% endif %}
-        <a href='gsdfsdfsdfsdfsf'>{{ brand.name }}</a>
+        <a href='brands/{{ brand.name }}'>{{ brand.name }}</a>
     </div>
 	{% endfor %}
 </div>
@@ -26,7 +26,12 @@
       <div class="box">
           {% for unit in units %}
 		<div class="selection">
-	    <a href='j,hg,gfhmfhj,hjg,g'> {{ unit.name }}
+        {% if unit_image %}
+        <p class="back_fon">
+            <img src="{{ unit.unit_image.url }}" alt="{{ unit.name }}" />
+        </p>
+        {% endif %}
+	    <a href='units/{{ unit.name }}'> {{ unit.name }}
         </a>
         </div>
 	{% endfor %}

@@ -18,14 +18,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from catalog.views import page_not_found
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('catalog.urls')),
     path('catalog/', include('catalog.urls')),
     path('orders/', include('orders.urls')),
     path('files/', include('files.urls')),
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+handler404 = page_not_found #редирект на кастомную страницу 404 функция Page_not_found в catalog.views
